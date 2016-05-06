@@ -19,7 +19,7 @@ VError  __stdcall ErrorHandlerFunc(HPDF_STATUS s1, HPDF_STATUS s2, void* e)
 VPDFDocument::VPDFDocument()
 {
 	fDocHandle = HPDF_New((HPDF_Error_Handler)(NULL), NULL);
-	fCurrentPage = NULL;
+	fCurrentPage = nullptr;
 }
 
 VPDFDocument::~VPDFDocument()
@@ -29,7 +29,7 @@ VPDFDocument::~VPDFDocument()
 
 VPDFPage* VPDFDocument::AddPage(  VError& outError )
 {
-	VPDFPage* pdfPage = NULL;
+	VPDFPage* pdfPage = nullptr;
 	
 	HPDF_Page hPage =  HPDF_AddPage ( fDocHandle );
 	outError = HPDF_GetError( fDocHandle );
@@ -37,7 +37,7 @@ VPDFPage* VPDFDocument::AddPage(  VError& outError )
 	{
 		pdfPage = VPDFPage::CreatePage (hPage);
 
-		if(pdfPage  != NULL )
+		if(pdfPage  != nullptr )
 		{
 			pdfPage->fDocParent = fDocHandle;
 		}
@@ -91,10 +91,10 @@ VPDFPage* VPDFDocument::GetCurrentPage(  )
 
 VPDFEncoder* VPDFDocument::GetEncoder(const uBYTE* inEncodingName, VError& outError )
 {
-	VPDFEncoder* vEncoder = NULL;
+	VPDFEncoder* vEncoder = nullptr;
 	HPDF_Encoder hEncoder = HPDF_GetEncoder(fDocHandle,(const char*)inEncodingName );
 	outError = HPDF_GetError( fDocHandle );
-	if (hEncoder == NULL && outError == VE_OK )
+	if (hEncoder == nullptr && outError == VE_OK )
 	{
 		vEncoder = new VPDFEncoder(hEncoder);
 	}
@@ -104,7 +104,7 @@ VPDFEncoder* VPDFDocument::GetEncoder(const uBYTE* inEncodingName, VError& outEr
 
 VPDFFont* VPDFDocument::GetFont (const uBYTE* inFontName , const uBYTE* inEncondingName, XBOX::VError& outError)
 {
-	VPDFFont* vFont = NULL;
+	VPDFFont* vFont = nullptr;
 	HPDF_Font hFont =  HPDF_GetFont( fDocHandle,(const char*)inFontName, (const char*)inEncondingName );
 	outError =  HPDF_GetError(fDocHandle);
 
@@ -118,9 +118,9 @@ VPDFFont* VPDFDocument::GetFont (const uBYTE* inFontName , const uBYTE* inEncond
 
 VPDFPage* VPDFDocument::InsertPage( const VPDFPage& inTargetPage)
 {
-	VPDFPage* vPage =  NULL;
+	VPDFPage* vPage =  nullptr;
 	HPDF_Page hTargetPage = inTargetPage.fPageHandle;
-	if (hTargetPage != NULL)
+	if (hTargetPage != nullptr)
 	{
 		HPDF_Page hPage =  HPDF_InsertPage ( fDocHandle, hTargetPage );
 		VError err = HPDF_GetError ( fDocHandle ) ;
@@ -136,7 +136,7 @@ VPDFPage* VPDFDocument::InsertPage( const VPDFPage& inTargetPage)
 
 VPDFImage* VPDFDocument::LoadPngImage (const uBYTE* inImgFileName , VError& outError )
 {
-	VPDFImage* vImage = NULL;
+	VPDFImage* vImage = nullptr;
 	HPDF_Image hImage = HPDF_LoadPngImageFromFile ( fDocHandle, (const char*)inImgFileName );
 	outError = HPDF_GetError( fDocHandle );
 	if (!outError && hImage )
